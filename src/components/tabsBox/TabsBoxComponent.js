@@ -4,6 +4,8 @@ import TabFactory from '../tab/TabFactory';
 import NavigationComponent from '../navigation/NavigationComponent';
 import Handlebars from 'handlebars-template-loader/runtime';//@TODO
 
+require('./TabBoxComponent.less');
+
 export default class TabsBoxComponent {
 
     constructor(tabs, target) {
@@ -26,7 +28,7 @@ export default class TabsBoxComponent {
 
         // create tabs
         this.tabs.forEach(function(tab, tabKey) {
-            tab = tabFactory.createTab(tab.type);
+            tab = tabFactory.createTab(tab);
             tab.render(tabKey);
         });
 

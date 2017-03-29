@@ -9,17 +9,17 @@ export default class TabFactory {
     /*
      * Create and return new tab object by defined tab tabType
      */
-    createTab(tabType) {
-        if(tabType == null) {
+    createTab(tab) {
+        if(tab.type == null) {
             return null;
         }
-        else if(tabType == 'varnish') {
+        else if(tab.type == 'varnish') {
             return new VarnishLogsTabComponent();
         }
-        else if(tabType == 'rss') {
-            return new RssFeedTabComponent();
+        else if(tab.type == 'rss') {
+            return new RssFeedTabComponent(tab.feeds);
         }
-        else if(tabType == 'flickr') {
+        else if(tab.type == 'flickr') {
             return new FlickrGalleryTabComponent();
         }
     }

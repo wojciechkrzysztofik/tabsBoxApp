@@ -1,8 +1,8 @@
-import VgRssFeedReader from './VgRssFeedReader';
-import ArsTechnicaFeedReader from './ArsTechnicaFeedReader';
-import TheRegisterFeedReader from './TheRegisterFeedReader';
+import VgRssFeedReader from './RssFeedReader/VgRssFeedReader';
+import ArsTechnicaFeedReader from './RssFeedReader/ArsTechnicaFeedReader';
+import TheRegisterFeedReader from './RssFeedReader/TheRegisterFeedReader';
 
-export default RssFactory {
+export default class RssFactory {
 
     createRssFeedReader(rssType) {
         if(rssType == null) {
