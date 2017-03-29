@@ -7,8 +7,9 @@ export default class FlickrGalleryTabComponent extends TabComponent {
         console.log('flickr gallery tab created');
     }
 
-    render() {
-
+    render(tabKey) {
+        let template = require('./views/FlickrGalleryTabComponent.hbs');
+        this.renderTab(template, tabKey);
     }
 
 };

@@ -1,8 +1,0 @@
-{{#extend "layout"}}
-
-    {{#content "tabs" mode="append"}}
-        <p>varnish tab container</p>
-    {{/content}}
-
-
-{{/extend}}

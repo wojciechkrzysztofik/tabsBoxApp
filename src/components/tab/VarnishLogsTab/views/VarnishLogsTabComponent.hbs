@@ -1,0 +1,40 @@
+<section class="tabs-box__tab tab--visible">
+    <h2>Varnish logs</h2>
+
+    <div>
+        <h3>5 hosts with most traffic</h3>
+        <table>
+            <thead>
+                <th>Host</th>
+                <th>Requests</th>
+            </thead>
+            <tbody>
+                {{#each mostTrafficHostnames as |value|}}
+                    <tr>
+                        <td>{{value.host}}</td>
+                        <td>{{value.requests}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        </ul>
+    </div>
+
+    <div>
+        <h3>5 most requested files</h3>
+        <table>
+            <thead>
+                <th>Requested file</th>
+                <th>Requests</th>
+            </thead>
+            <tbody>
+                {{#each mostReqestedFiles as |value|}}
+                    <tr>
+                        <td>{{value.requested_file}}</td>
+                        <td>{{value.requests}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</section>

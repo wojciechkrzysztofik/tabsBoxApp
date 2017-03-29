@@ -1,4 +1,4 @@
-import TabsBoxComponent from './tabsBox/tabsBoxComponent';
+import TabsBoxComponent from './components/tabsBox/tabsBoxComponent';
 
 // set target
 let tabsBoxWrapper = document.querySelector('#tabsBoxApp');
@@ -6,27 +6,30 @@ let tabsBoxWrapper = document.querySelector('#tabsBoxApp');
 // define tab type and content
 let tabs = [
     {
-      'type': 'varnish',
-      'path': '...'
+        'title': 'Varnish Log',
+        'type': 'varnish',
+        'path': '...'
     },
     {
-      'type': 'rss',
-      'feeds': [
-          {
-              'type': 'vg',
-              'url': ''
-          },
-          {
-              'type': 'arstechnica',
-              'url': ''
-          },
-          {
-              'type': 'theregister',
-              'url': ''
-          }
-      ]
+        'title': 'RSS Feeds',
+        'type': 'rss',
+        'feeds': [
+            {
+                'type': 'vg',
+                'url': ''
+            },
+            {
+                'type': 'arstechnica',
+                'url': ''
+            },
+            {
+                'type': 'theregister',
+                'url': ''
+            }
+        ]
     },
     {
+        'title': 'Flickr Gallery',
         'type': 'flickr',
         'keyword': 'Kraków'
     }

@@ -1,0 +1,9 @@
+<nav class="c-tabsbox-navigation navigation">
+    <ul>
+        {{#each links as |value key|}}
+            <li>
+                <a href="#" class="navigation__item" data-tab-id="{{key}}" title="Go to: {{value}}">{{value}}</a>
+            </li>
+        {{/each}}
+    </ul>
+</nav>
