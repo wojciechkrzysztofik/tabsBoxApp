@@ -1,3 +1,14 @@
 <section class="tabs-box__tab tab--visible">
-    <h3>rss feeds</h3>
+    <h2>Posts from RSS</h2>
+
+    <div>
+        <ul>
+            {{#each entries as |value|}}
+                <li>
+                    <p>{{value.title}}</p>
+                    <time>{{value.date}}</time>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
 </section>

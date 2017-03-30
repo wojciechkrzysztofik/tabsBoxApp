@@ -16,22 +16,24 @@ let tabs = [
         'feeds': [
             {
                 'type': 'vg',
-                'url': ''
+                'url': 'http://www.vg.no/rss/feed/?categories=1068,1069,1070&keywords=&limit=25&format=rss'
             },
             {
                 'type': 'arstechnica',
-                'url': ''
+                'url': 'http://feeds.arstechnica.com/arstechnica/index?format=xml'
             },
             {
                 'type': 'theregister',
-                'url': ''
+                'url': 'http://www.theregister.co.uk/headlines.atom'
             }
         ]
     },
     {
         'title': 'Flickr Gallery',
         'type': 'flickr',
-        'keyword': 'Kraków'
+        'keyword': 'Kraków',
+        'key': 'a668c9f958e3aac79be62524f51687da',
+        //'secret': 'd25ab1d51025d73b'
     }
 ];
 

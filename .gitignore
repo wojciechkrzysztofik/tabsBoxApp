@@ -1,3 +1,8 @@
+# system files
 .DS_Store
+
+# node modules
 node_modules
+
+# builded app
 dist/*

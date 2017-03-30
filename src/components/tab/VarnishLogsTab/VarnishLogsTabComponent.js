@@ -6,7 +6,7 @@ import _ from 'underscore';
 
 export default class VarnishLogsTabComponent extends TabComponent {
 
-    constructor() {
+    constructor(key) {
         super();
 
         // Load log file, parse and return as Array
@@ -18,6 +18,9 @@ export default class VarnishLogsTabComponent extends TabComponent {
 
         // get top fice most reqested files
         this.mostReqestedFiles = this.getMostRequestedFiles(logData, 5);
+
+        // render complete tab
+        this.render(key);
     }
 
     /*
@@ -59,9 +62,9 @@ export default class VarnishLogsTabComponent extends TabComponent {
         return topRequestedFiles;
     }
 
-    render(tabKey) {
+    render(key) {
         let template = require('./views/VarnishLogsTabComponent.hbs');
-        this.renderTab(template, tabKey, {'mostTrafficHostnames': this.mostTrafficHostnames, 'mostReqestedFiles': this.mostReqestedFiles});
+        this.renderTab(template, key, {'mostTrafficHostnames': this.mostTrafficHostnames, 'mostReqestedFiles': this.mostReqestedFiles});
     }
 
 };

@@ -40,11 +40,15 @@ export default class NavigationComponent {
         e.preventDefault();
 
         // hide active tab
-        this.hideActiveTab();
+        //this.hideActiveTab();
+        let activeTab = document.querySelector('.tabs-list .visible');
+        activeTab.className = 'tab hidden';
 
         // set new active tab
         let selectedTabId = this.dataset.tabId;
-        this.showSelectedTab(selectedTabId);
+        //this.showSelectedTab(selectedTabId);
+        let selectedTab = document.querySelector('.tab[data-tab-id="' + selectedTabId + '"]');
+        selectedTab.className = 'tab visible';
     }
 
     hideActiveTab() {

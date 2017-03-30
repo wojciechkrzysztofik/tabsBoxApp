@@ -9,18 +9,19 @@ export default class TabFactory {
     /*
      * Create and return new tab object by defined tab tabType
      */
-    createTab(tab) {
+    createTab(tab, key) {
         if(tab.type == null) {
             return null;
         }
         else if(tab.type == 'varnish') {
-            return new VarnishLogsTabComponent();
+            return new VarnishLogsTabComponent(key);
         }
         else if(tab.type == 'rss') {
-            return new RssFeedTabComponent(tab.feeds);
+            let feeds = tab.feeds;
+            return new RssFeedTabComponent(feeds, key);
         }
         else if(tab.type == 'flickr') {
-            return new FlickrGalleryTabComponent();
+            return new FlickrGalleryTabComponent(key);
         }
     }
 
