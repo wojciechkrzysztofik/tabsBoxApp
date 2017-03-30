@@ -31,8 +31,8 @@ let tabs = [
     {
         'title': 'Flickr Gallery',
         'type': 'flickr',
-        'keyword': 'Kraków',
-        'key': 'a668c9f958e3aac79be62524f51687da',
+        'keyword': 'muaythai',//'Kraków',
+        'api_key': 'a668c9f958e3aac79be62524f51687da',
         //'secret': 'd25ab1d51025d73b'
     }
 ];

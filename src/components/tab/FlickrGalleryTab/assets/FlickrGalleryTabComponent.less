@@ -1,0 +1,52 @@
+@import 'global';
+
+.flickr-tab {
+
+        &__title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 10px 0 20px;
+        }
+
+        &__gallery {
+            text-align: center;
+
+            .photos-list {
+                clear: both;
+                overflow: hidden;
+
+                &__item {
+                    background-color: @brand-blue-2;
+                    float: left;
+                    width: 49.5%;
+                    height: 340px;
+                    padding: 10px;
+                    text-align: center;
+
+                    &:nth-child(odd) {
+                        margin: 0 1% 1% 0;
+                    }
+                }
+
+                &__photo {
+                    height: 100%;
+                }
+            }
+        }
+
+        &__btn-load-more {
+            display: inline-block;
+            text-transform: uppercase;
+            background-color: @brand-blue-1;
+            color: @color-white;
+            font-size: 1.2rem;
+            padding: 15px 60px;
+            margin: 20px;
+
+            &:focus,
+            &:hover {
+                background-color: @brand-blue-2;
+                color: @color-white;
+            }
+        }
+}

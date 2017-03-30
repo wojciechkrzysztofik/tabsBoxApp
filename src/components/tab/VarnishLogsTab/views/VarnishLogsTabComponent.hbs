@@ -1,18 +1,18 @@
-<section class="tabs-box__tab tab--visible">
-    <h2>Varnish logs</h2>
+<section class="tabsbox__tab varnish-tab">
+    <h2 class="varnish-tab__title">Varnish logs</h2>
 
-    <div>
-        <h3>5 hosts with most traffic</h3>
-        <table>
+    <div class="table-wrapper">
+        <h3 class="table__title">5 hosts with most traffic</h3>
+        <table class="table">
             <thead>
-                <th>Host</th>
-                <th>Requests</th>
+                <th class="table__header">Host</th>
+                <th class="table__header">Requests</th>
             </thead>
             <tbody>
                 {{#each mostTrafficHostnames as |value|}}
                     <tr>
-                        <td>{{value.host}}</td>
-                        <td>{{value.requests}}</td>
+                        <td class="table__col">{{value.host}}</td>
+                        <td class="table__col">{{value.requests}}</td>
                     </tr>
                 {{/each}}
             </tbody>
@@ -20,18 +20,18 @@
         </ul>
     </div>
 
-    <div>
-        <h3>5 most requested files</h3>
-        <table>
+    <div class="table-wrapper">
+        <h3 class="table__title">5 most requested files</h3>
+        <table class="table">
             <thead>
-                <th>Requested file</th>
-                <th>Requests</th>
+                <th class="table__header">Requested file</th>
+                <th class="table__header">Requests</th>
             </thead>
             <tbody>
                 {{#each mostReqestedFiles as |value|}}
                     <tr>
-                        <td>{{value.requested_file}}</td>
-                        <td>{{value.requests}}</td>
+                        <td class="table__col">{{value.requested_file}}</td>
+                        <td class="table__col">{{value.requests}}</td>
                     </tr>
                 {{/each}}
             </tbody>

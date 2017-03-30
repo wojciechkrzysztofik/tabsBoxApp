@@ -4,6 +4,8 @@ import TabComponent from '../TabComponent';
 import VarnishLogReader from './VarnishLogReader';
 import _ from 'underscore';
 
+require('./assets/VarnishLogsTabComponent.less');
+
 export default class VarnishLogsTabComponent extends TabComponent {
 
     constructor(key) {

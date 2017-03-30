@@ -21,7 +21,7 @@ export default class TabFactory {
             return new RssFeedTabComponent(feeds, key);
         }
         else if(tab.type == 'flickr') {
-            return new FlickrGalleryTabComponent(key);
+            return new FlickrGalleryTabComponent(tab.keyword, tab.api_key, key);
         }
     }
 

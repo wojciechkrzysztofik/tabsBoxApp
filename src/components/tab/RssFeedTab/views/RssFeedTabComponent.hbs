@@ -1,12 +1,14 @@
-<section class="tabs-box__tab tab--visible">
-    <h2>Posts from RSS</h2>
+<section class="tabsbox__tab rssfeed-tab">
+    <h2 class="rssfeed-tab__title">Posts from RSS</h2>
 
     <div>
-        <ul>
+        <ul class="entries-list">
             {{#each entries as |value|}}
-                <li>
-                    <p>{{value.title}}</p>
-                    <time>{{value.date}}</time>
+                <li class="entries-list__item item">
+                    <h2 class="item__title">
+                        <a href="{{value.link}}" class="item__link" target="_blank">{{value.title}}</a>
+                    </h2>
+                    <time datetime="{{value.date}}" class="item__date">{{value.date}}</time>
                 </li>
             {{/each}}
         </ul>

@@ -1,5 +1,3 @@
-//import Feed from 'rss-to-json'; // to remove
-
 export default class RssFeedReader {
 
     constructor() {

@@ -3,6 +3,8 @@ import RssFeedParserFactory from './RssFeedParserFactory';
 import RssFeedReader from './RssFeedReader';
 import _ from 'underscore';
 
+require('./assets/RssFeedTabComponent.less');
+
 export default class RssFeedTabComponent extends TabComponent {
 
     constructor(feeds, key) {

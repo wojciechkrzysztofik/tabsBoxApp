@@ -1,7 +1,8 @@
-
 'use strict';
 
 import Handlebars from 'handlebars-template-loader/runtime';
+
+require('./assets/NavigationComponent.less');
 
 export default class NavigationComponent {
 
@@ -26,7 +27,7 @@ export default class NavigationComponent {
      * Add click listeners to items in navigation
      */
     addNavigationClickActions() {
-        let navigationLinks = document.querySelectorAll('.navigation__item');
+        let navigationLinks = document.querySelectorAll('.js-navigation-link');
 
         navigationLinks.forEach(function(navigationLink) {
             navigationLink.addEventListener('click', this.navLinkClickAction);
@@ -41,7 +42,7 @@ export default class NavigationComponent {
 
         // hide active tab
         //this.hideActiveTab();
-        let activeTab = document.querySelector('.tabs-list .visible');
+        let activeTab = document.querySelector('.js-tabs-list .visible');
         activeTab.className = 'tab hidden';
 
         // set new active tab
@@ -52,7 +53,7 @@ export default class NavigationComponent {
     }
 
     hideActiveTab() {
-        let activeTab = document.querySelector('.tabs-list .visible');
+        let activeTab = document.querySelector('.js-tabs-list .visible');
         activeTab.className = 'tab hidden';
     }
 

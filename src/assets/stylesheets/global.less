@@ -1,0 +1,25 @@
+@import 'reset';
+@import 'variables';
+@import 'utilities';
+
+body {
+    font-family: @base-font-family;
+    font-size: 14px;
+}
+
+a {
+    text-decoration: none;
+    color: @brand-blue-1;
+    transition: color .3s, background .3s;
+
+    &:focus,
+    &:hover {
+        color: @brand-blue-2;
+    }
+}
+
+h1,
+h2,
+h3 {
+    color: @brand-blue-1;
+}
