@@ -1,6 +1,7 @@
 'use strict';
 
 import TabComponent from '../TabComponent';
+import FlickrSearch from './FlickrSearch';
 import moment from 'Moment';
 import _ from 'underscore';
 
@@ -8,60 +9,77 @@ require('./assets/FlickrGalleryTabComponent.less');
 
 export default class FlickrGalleryTabComponent extends TabComponent {
 
-    constructor(keyword, api_key, key) {
+    constructor(keyword, api_key, photos_per_page, key) {
         super();
 
-        this.setTabKey(key);
-        this.setKeyword(keyword);
-        this.setApiKey(api_key);
-        this.currentPage = 1;
-        this.init();
+        // tab key (id used for navigation)
+        this.key = key;
+
+        this.initSearch(api_key, photos_per_page, keyword);
+        this.loadFirstPageOfPhotos();
     }
 
-    init() {
-        let keyword = this.getKeyword();
-        let limit = 4;
-        let sort = 'date-posted-desc';
-        let maxTakenDate = moment().startOf('year').unix();
-        let search = this.searchPhotos(keyword, sort, maxTakenDate, limit);
+    /*
+     * Initialize Flickr Search
+     */
+    initSearch(api_key, photos_per_page, keyword) {
+        // keyword for flickr search
+        this.keyword = keyword;
+        // sort order
+        this.sort = 'date-posted-desc';
+        // max taken date for search - begining of current year
+        this.maxTakenDate = moment().startOf('year').unix();
+        // current page of displayed results (photos)
+        this.currentPage = 1;
+        // number of total available pages with results
+        this.totalPages;
+
+        this.flickrSearch = new FlickrSearch(api_key, photos_per_page);
+    }
+
+    /*
+     * Load first page of photos from Flickr
+     */
+    loadFirstPageOfPhotos() {
+        let search = this.flickrSearch.searchPhotos(this.keyword, this.sort, this.maxTakenDate, this.photosPerPage);
 
         search.then(function(result) {
-            let flickrData = result.getElementsByTagName("photos")[0].getElementsByTagName('photo');
-            this.totalPages = result.getElementsByTagName("photos")[0].getAttribute('total');
+            this.flickrSearch.totalPages = this.flickrSearch.getTotalPages(result);
+            let flickrData = this.flickrSearch.getPhotoElements(result);
 
             let photos = _.map(flickrData, function(photo) {
-                let photoPaths = this.createPhotoPaths(photo);
+                let photoPath = this.getPhotoPath(photo);
 
-                return photoPaths;
+                return photoPath;
             }.bind(this));
 
             // render complete tab
-            let key = this.getTabKey();
-            this.render(key, photos);
+            this.render(this.key, photos);
 
-            this.currentPage += 1;
-
-            this.addLoadMoreEventListener();
-
-            //result.getElementsByTagName("photos")[0].getAttribute('total');
+            // increment current page number if it's lower than totalPages
+            this.incrementCurrentPage(this.flickrSearch.totalPages);
 
         }.bind(this));
     }
 
     /*
-     * Return object with paths to thumb and original size of photo file
+     * Get path to photo - mobile or desktop version
      */
-    createPhotoPaths(photo) {
+    getPhotoPath(photo) {
         let id = photo.getAttribute('id');
         let farm = photo.getAttribute('farm');
         let server = photo.getAttribute('server');
         let secret = photo.getAttribute('secret');
-        let photoPaths = {
-            'thumb': `https://farm${farm}.staticflickr.com/${server}/${id}_${secret}_m.jpg`,
-            'original': `https://farm${farm}.staticflickr.com/${server}/${id}_${secret}_b.jpg`
+
+        let windowWidth = window.innerWidth;
+        let photoPath;
+        if(windowWidth > 768) {
+            photoPath = `https://farm${farm}.staticflickr.com/${server}/${id}_${secret}_b.jpg`;
+        } else {
+            photoPath = `https://farm${farm}.staticflickr.com/${server}/${id}_${secret}_m.jpg`;
         }
 
-        return photoPaths;
+        return photoPath;
     }
 
     /*
@@ -70,7 +88,6 @@ export default class FlickrGalleryTabComponent extends TabComponent {
     addLoadMoreEventListener() {
         document.addEventListener("DOMContentLoaded", function(event) {
             let loadMoreBtn = document.querySelector('.js-load-more');
-
             loadMoreBtn.addEventListener('click', this.loadMorePhotos.bind(this));
         }.bind(this));
     }
@@ -81,20 +98,15 @@ export default class FlickrGalleryTabComponent extends TabComponent {
     loadMorePhotos(e) {
         e.preventDefault();
 
-        let keyword = this.getKeyword();
-        let limit = 4;
-        let sort = 'date-posted-desc';
-        let maxTakenDate = moment().startOf('year').unix();
-        let page = this.currentPage;
+        let search = this.flickrSearch.searchPhotos(this.keyword, this.sort, this.maxTakenDate, this.currentPage);
 
-        let search = this.searchPhotos(keyword, sort, maxTakenDate, limit, page);
         search.then(function(result) {
-            // parsujemy
-            let flickrData = result.getElementsByTagName("photos")[0].getElementsByTagName('photo');
-            _.each(flickrData, function(photo) {
-                let photoPaths = this.createPhotoPaths(photo);
 
-                this.injectNewPhoto(photoPaths);
+            let flickrData = this.flickrSearch.getPhotoElements(result);
+            _.each(flickrData, function(photo) {
+                let photoPath = this.getPhotoPath(photo);
+
+                this.appendPhotoToGallery(photoPath);
             }.bind(this));
 
             this.currentPage += 1;
@@ -102,9 +114,12 @@ export default class FlickrGalleryTabComponent extends TabComponent {
         }.bind(this));
     }
 
-    injectNewPhoto(photoPaths) {
+    /*
+     * Add new photo element to existing gallery
+     */
+    appendPhotoToGallery(photoPath) {
         let photoItemTemplate = require('./views/PhotoItem.hbs');
-        let photoItem = photoItemTemplate(photoPaths);
+        let photoItem = photoItemTemplate({'photoPath': photoPath});
 
         let photosContainer = document.querySelector('.js-photos-list');
         let newPhotoElement = document.createElement('li');
@@ -114,73 +129,47 @@ export default class FlickrGalleryTabComponent extends TabComponent {
     }
 
     /*
-     *
+     * Increment current page number
      */
-    searchPhotos(keyword, sort, maxTakenDate, limit, page = 1) {
-        let apiKey = this.getApiKey();
-
-        let apiUrl = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=' + apiKey + '&text=' + keyword + '&max_taken_date=' + maxTakenDate + '&sort=' + sort + '&per_page=' + limit + '&page=' + page;
-
-        return new Promise((resolve, reject) => {
-            let x = new XMLHttpRequest();
-            x.open('GET', apiUrl, false);
-            x.onreadystatechange = function () {
-                if (x.readyState == 4 && x.status == 200) {
-                    let results = x.responseXML;
-                    resolve(results);
-                } else {
-                    reject(null);
-                }
-            };
-            x.send(null);
-        });
+    incrementCurrentPage(totalPages) {
+        if(this.currentPage < totalPages) {
+            this.currentPage += 1;
+            document.addEventListener("DOMContentLoaded", this.makeLoadMoreBtnVisible);
+        } else {
+            document.addEventListener("DOMContentLoaded", this.makeLoadMoreBtnHidden);
+        }
     }
 
     /*
-     * *key* setter
+     * Add class *visible* to *load more* button
      */
-    setTabKey(key) {
-        this.key = key;
+    makeLoadMoreBtnVisible() {
+        let loadMoreBtn = document.querySelector('.js-load-more');
+        if(!loadMoreBtn.classList.contains('visible')) {
+            loadMoreBtn.classList.add('visible');
+            //loadMoreBtn.classList.remove('hidden');
+        }
     }
 
     /*
-     * *key* getter
+     * Remove class *visible* from *load more* button
      */
-    getTabKey() {
-        return this.key;
+    makeLoadMoreBtnHidden() {
+        let loadMoreBtn = document.querySelector('.js-load-more');
+        if(loadMoreBtn.classList.contains('visible')) {
+            loadMoreBtn.classList.remove('visible');
+            //loadMoreBtn.classList.add('hidden');
+        }
     }
 
     /*
-     * *keyword* setter
+     * Render completed tab with photo gallery
      */
-    setKeyword(keyword) {
-        this.keyword = keyword;
-    }
-
-    /*
-     * *keyword* getter
-     */
-    getKeyword() {
-        return this.keyword;
-    }
-
-    /*
-     * *apiKey* setter
-     */
-    setApiKey(apiKey) {
-        this.apiKey = apiKey;
-    }
-
-    /*
-     * *apiKey* getter
-     */
-    getApiKey() {
-        return this.apiKey;
-    }
-
     render(tabKey, photos) {
         let template = require('./views/FlickrGalleryTabComponent.hbs');
         this.renderTab(template, tabKey, {'photos': photos});
+
+        this.addLoadMoreEventListener();
     }
 
 };

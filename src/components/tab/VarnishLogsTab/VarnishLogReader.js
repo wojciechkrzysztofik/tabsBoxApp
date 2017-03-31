@@ -7,18 +7,17 @@ export default class VarnishLogReader {
      */
     getRawLogFromFile(logFilePath){
         let rawLogData = null;
-        let logFile = new XMLHttpRequest();
+        let xr = new XMLHttpRequest();
 
-        logFile.open('GET', logFilePath, false);
-
-        logFile.onreadystatechange = function() {
-            if(logFile.readyState === 4) {
-                if(logFile.status === 200 || logFile.status == 0) {
-                    rawLogData = logFile.responseText;
+        xr.open('GET', logFilePath, false);
+        xr.onreadystatechange = function() {
+            if(xr.readyState === 4) {
+                if(xr.status === 200 || xr.status == 0) {
+                    rawLogData = xr.responseText;
                 }
             }
         };
-        logFile.send(null);
+        xr.send(null);
 
         return rawLogData;
     }
@@ -37,17 +36,23 @@ export default class VarnishLogReader {
             // We assume that varnish log file uses defalt format:
             // %h %l %u %t "%r" %s %b "%{Referer}i" "%{User-agent}i"
             if(singleRowArr !== null) {
+                let requestedUrl = this.getRequestedUrl(singleRowArr[4])
+                let requestedFile = this.getRequestedFile(requestedUrl);
+                let requestedHostname = this.getHostnameFromUrl(requestedUrl);
+
                 let singleRow  = {
                     'remote_host': singleRowArr[0],
                     'remote_logname': singleRowArr[1],
                     'remote_user': singleRowArr[2],
                     'recieve_date': singleRowArr[3],
                     'request': singleRowArr[4],
-                    'requested_file': this.getRequestedFile(singleRowArr[4]),
+                    'requested_file': requestedFile,
+                    'requested_hostname': requestedHostname,
                     'status': singleRowArr[5],
                     'referer': singleRowArr[6],
                     'user_agent': singleRowArr[7],
                 }
+
                 parsedLogData.push(singleRow);
             }
 
@@ -57,10 +62,19 @@ export default class VarnishLogReader {
     }
 
     /*
-     * Return path to reqested file
+     * Return path to requested file without http/https protocol
      */
-    getRequestedFile(reqestString) {
-        // data contains: request method, path to requested file, protocl info
+    getRequestedFile(requestString) {
+        let requestedFile = requestString.replace(/^(http(s)?:\/\/?)/, '');
+
+        return requestedFile;
+    }
+
+    /*
+     * Return requested url
+     */
+    getRequestedUrl(reqestString) {
+        // data contains: request method, requested path, protocl info
         let data = reqestString.split(' ');
 
         return data[1];
@@ -82,6 +96,12 @@ export default class VarnishLogReader {
         let cols = row.match(/(".*?"|\[(.*?)\]|[^"\s]+)+(?=\s*|\s*$)/g);
 
         return cols;
+    }
+
+    getHostnameFromUrl(url) {
+        let hostname = url.toString().replace(/^(.*\/\/[^\/?#]*).*$/,"$1").replace(/^(http(s)?:\/\/?)/, '');
+
+        return hostname;
     }
 
     /*

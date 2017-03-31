@@ -29,16 +29,16 @@ export default class VarnishLogsTabComponent extends TabComponent {
      * Return *number* of most traffic hostnames from logs array
      */
     getMostTrafficHostnames(logs, number) {
-        let groupedByHost = _.groupBy(logs, 'remote_host');
-        let sortedByReqNumber = _.sortBy(groupedByHost, function(hostRequests) {
-            return hostRequests.length * -1;
+        let groupedByHostname = _.groupBy(logs, 'requested_hostname');
+        let sortedByReqNumber = _.sortBy(groupedByHostname, function(request) {
+            return request.length * -1;
         });
         let topTrafficHostsTmp = _.first(sortedByReqNumber, number);
         let topTrafficHosts = [];
 
         topTrafficHostsTmp.forEach(function(requestsArr) {
             topTrafficHosts.push({
-                'host': requestsArr[0].remote_host,
+                'requested_hostname': requestsArr[0].requested_hostname,
                 'requests': requestsArr.length
             });
         });

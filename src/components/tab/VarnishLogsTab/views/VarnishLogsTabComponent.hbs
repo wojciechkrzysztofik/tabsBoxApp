@@ -2,7 +2,7 @@
     <h2 class="varnish-tab__title">Varnish logs</h2>
 
     <div class="table-wrapper">
-        <h3 class="table__title">5 hosts with most traffic</h3>
+        <h3 class="table__title">5 hostnames with most traffic</h3>
         <table class="table">
             <thead>
                 <th class="table__header">Host</th>
@@ -11,7 +11,7 @@
             <tbody>
                 {{#each mostTrafficHostnames as |value|}}
                     <tr>
-                        <td class="table__col">{{value.host}}</td>
+                        <td class="table__col">{{value.requested_hostname}}</td>
                         <td class="table__col">{{value.requests}}</td>
                     </tr>
                 {{/each}}

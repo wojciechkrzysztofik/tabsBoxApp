@@ -1,9 +1,11 @@
+'use strict';
+
 import TabsBoxComponent from './components/tabsBox/tabsBoxComponent';
 
 // set target
 let tabsBoxWrapper = document.querySelector('#tabsBoxApp');
 
-// define tab type and content
+// define tabs type and content
 let tabs = [
     {
         'title': 'Varnish Log',
@@ -31,9 +33,9 @@ let tabs = [
     {
         'title': 'Flickr Gallery',
         'type': 'flickr',
-        'keyword': 'muaythai',//'Kraków',
+        'keyword': 'Kraków',
         'api_key': 'a668c9f958e3aac79be62524f51687da',
-        //'secret': 'd25ab1d51025d73b'
+        'photos_per_page': 4
     }
 ];
 

@@ -3,11 +3,15 @@
 
     <div class="flickr-tab__gallery">
         <ul class="photos-list js-photos-list">
-            {{#each photos as |photo|}}
-                <li class="photos-list__item">
-                    <img class="photos-list__photo" src="{{photo.original}}" alt="Photo from Flickr">
-                </li>
-            {{/each}}
+            {{#if photos}}
+                {{#each photos as |photo|}}
+                    <li class="photos-list__item">
+                        <img class="photos-list__photo" src="{{photo}}" alt="Photo from Flickr">
+                    </li>
+                {{/each}}
+            {{else}}
+                <p class="photos-list__message">There is no results for your search.</p>
+            {{/if}}
         </ul>
 
         <a href="" class="flickr-tab__btn-load-more js-load-more">Load more</a>

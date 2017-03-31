@@ -41,25 +41,15 @@ export default class NavigationComponent {
         e.preventDefault();
 
         // hide active tab
-        //this.hideActiveTab();
-        let activeTab = document.querySelector('.js-tabs-list .visible');
-        activeTab.className = 'tab hidden';
+        let activeTab = document.querySelector('.js-tabs-list .tab.visible');
+        activeTab.classList.remove('visible');
+        activeTab.classList.add('hidden');
 
-        // set new active tab
+        // // set new active tab
         let selectedTabId = this.dataset.tabId;
-        //this.showSelectedTab(selectedTabId);
         let selectedTab = document.querySelector('.tab[data-tab-id="' + selectedTabId + '"]');
-        selectedTab.className = 'tab visible';
-    }
-
-    hideActiveTab() {
-        let activeTab = document.querySelector('.js-tabs-list .visible');
-        activeTab.className = 'tab hidden';
-    }
-
-    showSelectedTab(id) {
-        let selectedTab = document.querySelector('.tab[data-tab-id="' + id + '"]');
-        selectedTab.className = 'tab visible';
+        selectedTab.classList.add('visible');
+        selectedTab.classList.remove('hidden');
     }
 
 }

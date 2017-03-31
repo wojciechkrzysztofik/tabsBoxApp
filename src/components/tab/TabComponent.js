@@ -8,19 +8,22 @@ export default class TabComponent {
     renderTab(template, tabKey, data = null) {
         document.addEventListener("DOMContentLoaded", function(event) {
             let tabsContainer = document.querySelector('.js-tabs-list');
-
-            // create container for new tab
-            let newTabContainer = document.createElement('div');
-            newTabContainer.dataset.tabId = tabKey;
-            newTabContainer.className = this.setClassName(tabKey);
-
-            // add new tab to tabs container
-            tabsContainer.appendChild(newTabContainer);
-
-            // render template
-            newTabContainer.innerHTML = template(data);
+            let newTabElement = this.createNewTabElement(tabKey, template, data);
+            tabsContainer.appendChild(newTabElement);
         }.bind(this));
     }
+
+    /*
+     * Create new tab element
+     */
+     createNewTabElement(tabKey, template, data) {
+         let newTabElement = document.createElement('div');
+         newTabElement.dataset.tabId = tabKey;
+         newTabElement.className = this.setClassName(tabKey);
+         newTabElement.innerHTML = template(data);
+
+         return newTabElement;
+     }
 
     /*
      * Set class name for tab - visible/hidden

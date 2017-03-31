@@ -2,14 +2,31 @@
 
 .navigation {
 
+    &__list {
+        text-align: center;
+
+        @media(min-width: @screen-desktop) {
+            text-align: left;
+        }
+    }
+
     .item {
         display: inline-block;
-        margin-right: 20px;
+        margin: 0 10px;
+
+        @media(min-width: @screen-desktop) {
+            margin: 0 20px 0 0;
+        }
 
         &__link {
             display: block;
-            padding: 10px 20px;
-            font-size: 1.2rem;
+            font-size: .8rem;
+            padding: 10px 0;
+
+            @media(min-width: @screen-desktop) {
+                padding: 10px 20px;
+                font-size: 1.2rem;
+            }
         }
     }
 
