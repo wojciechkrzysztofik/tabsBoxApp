@@ -4,7 +4,7 @@ import TabFactory from '../tab/TabFactory';
 import NavigationComponent from '../navigation/NavigationComponent';
 import Handlebars from 'handlebars-template-loader/runtime';//@TODO
 
-require('./assets/TabBoxComponent.less');
+require('./assets/TabsBoxComponent.less');
 
 export default class TabsBoxComponent {
 
