@@ -29,7 +29,6 @@ export default class TabsBoxComponent {
         // create tabs
         this.tabs.forEach(function(tab, key) {
             tab = tabFactory.createTab(tab, key);
-            //tab.render(tabKey);
         });
 
         // register partial with tabs navigation
